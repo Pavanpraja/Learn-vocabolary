@@ -92,6 +92,15 @@ function speak(word) {
 
 // Spelling Quiz Feature (within the word)
 function showSpellingQuiz(word, liElement) {
+  // Ensure we're appending to the parent of the liElement
+  const parentElement = liElement.parentElement;
+
+  if (!parentElement) {
+    console.error("Parent element not found for the quiz container.");
+    return;
+  }
+
+  // Create the quiz container
   const quizContainer = document.createElement("div");
   quizContainer.innerHTML = `
     <h4>Spell the word: ${word}</h4>
@@ -99,7 +108,9 @@ function showSpellingQuiz(word, liElement) {
     <button onclick="checkSpelling('${word}', '${liElement}')">Submit</button>
     <p id="quizFeedback-${word}"></p>
   `;
-  liElement.appendChild(quizContainer);
+
+  // Append the quiz container to the parent element (above the li)
+  parentElement.insertBefore(quizContainer, liElement);
 }
 
 function checkSpelling(correctSpelling, liElement) {
